@@ -1,10 +1,13 @@
 conformant = "Partial"
 notes = """
 Does not reject use of attribute that is compatible only with float.
+Does not narrow from float to int after isinstance() check
 """
 output = """
+specialtypes_promotions.py:33:8 Incompatible return type [7]: Expected `float` but got `complex`.
 """
 conformance_automated = "Fail"
 errors_diff = """
-Line 13: Expected 1 errors
+Line 17: Expected 1 errors
+Line 26: Expected 1 errors
 """

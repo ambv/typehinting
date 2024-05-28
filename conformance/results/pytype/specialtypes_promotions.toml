@@ -1,7 +1,12 @@
-conformant = "Pass"
-output = """
-File "specialtypes_promotions.py", line 13, in func1: No attribute 'numerator' on float [attribute-error]
+conformant = "Partial"
+notes = """
+Does not narrow from float to int after isinstance() check
 """
-conformance_automated = "Pass"
+output = """
+File "specialtypes_promotions.py", line 17, in func1: No attribute 'numerator' on float [attribute-error]
+File "specialtypes_promotions.py", line 33, in func2: bad return type [bad-return-type]
+"""
+conformance_automated = "Fail"
 errors_diff = """
+Line 26: Expected 1 errors
 """

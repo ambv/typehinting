@@ -113,11 +113,25 @@ Special cases for ``float`` and ``complex``
 
 Python's numeric types ``complex``, ``float`` and ``int`` are not
 subtypes of each other, but to support common use cases, the type
-system contains a straightforward shortcut:
-when an argument is annotated as having
-type ``float``, an argument of type ``int`` is acceptable; similar,
-for an argument annotated as having type ``complex``, arguments of
-type ``float`` or ``int`` are acceptable.
+system contains a special case.
+
+When a reference to the built-in type ``float`` appears in a :term:`type expression`,
+it is interpreted as if it were a union of the built-in types ``float`` and ``int``.
+Similarly, when a reference to the type ``complex`` appears, it is interpreted as
+a union of the built-in types ``complex``, ``float`` and ``int``.
+These implicit unions behave exactly like the corresponding explicit union types,
+but type checkers may choose to display them differently in user-visible output
+for clarity.
+
+Type checkers should support narrowing the type of a variable to exactly ``float``
+or ``int``, without the implicit union, through a call to ``isinstance()``::
+
+  def f(x: float) -> None:
+      reveal_type(x)  # float | int, but type checkers may display just "float"
+      if isinstance(x, float):
+          reveal_type(x)  # float
+      else:
+          reveal_type(x)  # int
 
 .. _`type-brackets`:
 

@@ -156,6 +156,45 @@ This is an example of a parametrized test with ``pytest-mypy-plugins``:
       main: |
         reveal_type({[ val }})  # N: Revealed type is '{{ rt }}'
 
+pytest-mypy-testing
+-------------------
+
+`pytest-mypy-testing <https://github.com/davidfritzsche/pytest-mypy-testing>`_ is another
+plugin for ``pytest``. The main difference between :ref:`pytest-mypy-plugins` is that
+:ref:`pytest-mypy-testing` allows writing tests inside Python code and/or
+mixed with actual tests.
+
+.. warning::
+
+    pytest-mypy-testing uses the Python
+    `ast<https://docs.python.org/3/library/ast.html>`_ module to parse
+    candidate files and does not import any file, i.e., the decorator must be
+    exactly named ``@pytest.mark.mypy_testing``!
+
+
+These are examples of testing with ``pytest-mypy-testing``:
+
+.. code-block:: python
+
+    @pytest.mark.mypy_testing
+    def mypy_use_reveal_type():
+        reveal_type(123)  # N: Revealed type is 'Literal[123]?'
+        reveal_type(456)  # R: Literal[456]?
+
+.. code-block:: python
+
+    def foo(num: int) -> str:
+        return str(num)
+
+
+    @pytest.mark.mypy_testing
+    def test_foo():
+        result = foo(1)
+        reveal_type(result)  # R: builtins.str
+
+        assert result == "1"
+
+
 Improving Type Completeness
 ===========================
 

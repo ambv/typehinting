@@ -158,17 +158,17 @@
         </header>
         <div class="table_container"><table><tbody>
 <tr><th class="col1">&nbsp;</th>
-<th class='tc-header'><div class='tc-name'>mypy 1.14.0</div>
-<div class='tc-time'>1.6sec</div>
+<th class='tc-header'><div class='tc-name'>mypy 1.14.1</div>
+<div class='tc-time'>1.7sec</div>
 </th>
 <th class='tc-header'><div class='tc-name'>pyright 1.1.391</div>
-<div class='tc-time'>1.2sec</div>
+<div class='tc-time'>1.5sec</div>
 </th>
 <th class='tc-header'><div class='tc-name'>pyre 0.9.23</div>
-<div class='tc-time'>7.3sec</div>
+<div class='tc-time'>6.0sec</div>
 </th>
 <th class='tc-header'><div class='tc-name'>pytype 2024.10.11</div>
-<div class='tc-time'>37.2sec</div>
+<div class='tc-time'>30.8sec</div>
 </th>
 </tr>
 <tr><th class="column" colspan="5">
@@ -670,7 +670,37 @@
 <th class="column col2 conformant">Pass</th>
 <th class="column col2 conformant">Pass</th>
 <th class="column col2 conformant">Pass</th>
-<th class="column col2 partially-conformant"><div class="hover-text">Partial<span class="tooltip-text" id="bottom"><p>Does not reject a function with a single @overload signature.</p><p>Does not reject a function with @overload signature but no implementation.</p></span></div></th>
+<th class="column col2 partially-conformant">Partial</th>
+</tr>
+<tr><th class="column col1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;overloads_consistency</th>
+<th class="column col2 conformant">Pass</th>
+<th class="column col2 conformant">Pass</th>
+<th class="column col2 partially-conformant"><div class="hover-text">Partial<span class="tooltip-text" id="bottom"><p>Does not apply decorator transforms before checking overload consistency.</p></span></div></th>
+<th class="column col2 not-conformant"><div class="hover-text">Fail<span class="tooltip-text" id="bottom"><p>Doesn't appear to validate overload consistency at all.</p></span></div></th>
+</tr>
+<tr><th class="column col1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;overloads_definitions</th>
+<th class="column col2 partially-conformant"><div class="hover-text">Partial<span class="tooltip-text" id="bottom"><p>Does not allow an overload with no implementation in an abstract base class.</p><p>Allows @override to be on all overloads and implementation, instead of just implementation.</p></span></div></th>
+<th class="column col2 partially-conformant"><div class="hover-text">Partial<span class="tooltip-text" id="bottom"><p>Allows @final/@override on all overloads and implementation; should be implementation-only.</p></span></div></th>
+<th class="column col2 partially-conformant"><div class="hover-text">Partial<span class="tooltip-text" id="bottom"><p>Does not allow an overload with no implementation in a Protocol or an abstract base class.</p><p>Expects @final/@override on all overloads and implementation, instead of implementation only.</p></span></div></th>
+<th class="column col2 not-conformant"><div class="hover-text">Fail<span class="tooltip-text" id="bottom"><p>Does not reject a function with a single @overload signature.</p><p>Does not reject a function with @overload signature but no implementation.</p><p>Does not allow an overload with no implementation in a Protocol or an abstract base class.</p><p>Does not error on overloads inconsistently decorated with `@staticmethod` or `@classmethod`.</p><p>Does not enforce any rules on location of @final or @override decorators.</p></span></div></th>
+</tr>
+<tr><th class="column col1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;overloads_definitions_stub</th>
+<th class="column col2 partially-conformant"><div class="hover-text">Partial<span class="tooltip-text" id="bottom"><p>Allows @override to appear in a stub file not on the first overload.</p></span></div></th>
+<th class="column col2 partially-conformant"><div class="hover-text">Partial<span class="tooltip-text" id="bottom"><p>Does not enforce that @final/@override in a stub should be only on first overload.</p><p>Does not enforce @override when correctly used with an overloaded method in a stub file.</p></span></div></th>
+<th class="column col2 partially-conformant"><div class="hover-text">Partial<span class="tooltip-text" id="bottom"><p>Expects @final and @override to be present on all overloads, not just first.</p></span></div></th>
+<th class="column col2 not-conformant"><div class="hover-text">Fail<span class="tooltip-text" id="bottom"><p>Does not enforce any of the specified rules regarding overload definitions.</p></span></div></th>
+</tr>
+<tr><th class="column col1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;overloads_evaluation</th>
+<th class="column col2 partially-conformant"><div class="hover-text">Partial<span class="tooltip-text" id="bottom"><p>Does not expand boolean arguments to Literal[True] and Literal[False].</p><p>Does not expand enum arguments to literal variants.</p><p>Does not expand tuple arguments to possible combinations.</p></span></div></th>
+<th class="column col2 partially-conformant"><div class="hover-text">Partial<span class="tooltip-text" id="bottom"><p>Does not expand boolean arguments to Literal[True] and Literal[False].</p><p>Does not expand enum arguments to literal variants.</p><p>Does not expand tuple arguments to possible combinations.</p><p>Does not prefer variadic match to indeterminate-length unpacked argument.</p></span></div></th>
+<th class="column col2 partially-conformant"><div class="hover-text">Partial<span class="tooltip-text" id="bottom"><p>Does not expand boolean arguments to Literal[True] and Literal[False].</p><p>Does not expand enum arguments to literal variants.</p><p>Does not expand type[A | B] to type[A] and type[B].</p><p>Does not expand tuple arguments to possible combinations.</p><p>Does not prefer variadic match to indeterminate-length unpacked argument.</p><p>Does not treat multiple matches due to gradual types as ambiguous.</p></span></div></th>
+<th class="column col2 partially-conformant"><div class="hover-text">Partial<span class="tooltip-text" id="bottom"><p>Does not perform argument expansion (on any types) when matching overloads.</p><p>Does not treat multiple matches due to gradual types as ambiguous.</p><p>Does not prefer variadic match to indeterminate-length unpacked argument.</p></span></div></th>
+</tr>
+<tr><th class="column col1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;overloads_overlap</th>
+<th class="column col2 conformant">Pass</th>
+<th class="column col2 conformant">Pass</th>
+<th class="column col2 partially-conformant"><div class="hover-text">Partial<span class="tooltip-text" id="bottom"><p>Does not check for partially overlapping overloads with inconsistent return type.</p></span></div></th>
+<th class="column col2 not-conformant"><div class="hover-text">Fail<span class="tooltip-text" id="bottom"><p>Does not check for partially or fully overlapping overloads.</p></span></div></th>
 </tr>
 <tr><th class="column" colspan="5">
 <a class="test_group" href="https://typing.readthedocs.io/en/latest/spec/exceptions.html">Exceptions</a>

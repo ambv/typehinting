@@ -269,7 +269,7 @@ class PyreTypeChecker(TypeChecker):
         line_to_errors: dict[int, list[str]] = {}
         for line in output:
             # Ignore multi-line errors
-            if ".py:" not in line:
+            if ".py:" not in line and ".pyi:" not in line:
                 continue
             # Ignore reveal_type errors
             if "Revealed type [-1]" in line:
@@ -378,7 +378,7 @@ class PytypeTypeChecker(TypeChecker):
         # annotations_forward_refs.py:103:1: unexpected indent [python-compiler-error]
         line_to_errors: dict[int, list[str]] = {}
         for line in output:
-            match = re.search(r"^[a-zA-Z0-9_]+.py:(\d+):(\d+): ", line)
+            match = re.search(r"^[a-zA-Z0-9_]+.pyi?:(\d+):(\d+): ", line)
             if match is not None:
                 lineno = int(match.group(1))
                 line_to_errors.setdefault(int(lineno), []).append(line)

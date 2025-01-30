@@ -1,0 +1,18 @@
+conformant = "Partial"
+notes = """
+Does not apply decorator transforms before checking overload consistency.
+"""
+conformance_automated = "Fail"
+errors_diff = """
+Line 107: Unexpected errors ['overloads_consistency.py:107:0 Incompatible overload [43]: The return type of overloaded function `decorated` (`None`) is incompatible with the return type of the implementation (`bytes`).', 'overloads_consistency.py:107:0 Incompatible overload [43]: The implementation of `decorated` does not accept all possible arguments of overload defined on line `107`.']
+Line 111: Unexpected errors ['overloads_consistency.py:111:0 Incompatible overload [43]: The return type of overloaded function `decorated` (`str`) is incompatible with the return type of the implementation (`bytes`).', 'overloads_consistency.py:111:0 Incompatible overload [43]: The implementation of `decorated` does not accept all possible arguments of overload defined on line `111`.', 'overloads_consistency.py:111:0 Incompatible overload [43]: This definition does not have the same decorators as the preceding overload(s).']
+"""
+output = """
+overloads_consistency.py:24:0 Incompatible overload [43]: The return type of overloaded function `return_type` (`str`) is incompatible with the return type of the implementation (`int`).
+overloads_consistency.py:40:0 Incompatible overload [43]: The implementation of `parameter_type` does not accept all possible arguments of overload defined on line `40`.
+overloads_consistency.py:107:0 Incompatible overload [43]: The return type of overloaded function `decorated` (`None`) is incompatible with the return type of the implementation (`bytes`).
+overloads_consistency.py:107:0 Incompatible overload [43]: The implementation of `decorated` does not accept all possible arguments of overload defined on line `107`.
+overloads_consistency.py:111:0 Incompatible overload [43]: The return type of overloaded function `decorated` (`str`) is incompatible with the return type of the implementation (`bytes`).
+overloads_consistency.py:111:0 Incompatible overload [43]: The implementation of `decorated` does not accept all possible arguments of overload defined on line `111`.
+overloads_consistency.py:111:0 Incompatible overload [43]: This definition does not have the same decorators as the preceding overload(s).
+"""

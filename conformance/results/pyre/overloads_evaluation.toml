@@ -1,0 +1,43 @@
+conformant = "Partial"
+notes = """
+Does not expand boolean arguments to Literal[True] and Literal[False].
+Does not expand enum arguments to literal variants.
+Does not expand type[A | B] to type[A] and type[B].
+Does not expand tuple arguments to possible combinations.
+Does not prefer variadic match to indeterminate-length unpacked argument.
+Does not treat multiple matches due to gradual types as ambiguous.
+"""
+conformance_automated = "Fail"
+errors_diff = """
+Line 81: Unexpected errors ['overloads_evaluation.py:81:23 Incompatible parameter type [6]: In call `example2`, for 2nd positional argument, expected `str` but got `Union[int, str]`.']
+Line 82: Unexpected errors ['overloads_evaluation.py:82:4 Assert type [70]: Expected `Union[int, str]` but got `str`.']
+Line 106: Unexpected errors ['overloads_evaluation.py:106:23 Incompatible parameter type [6]: In call `expand_bool`, for 1st positional argument, expected `typing_extensions.Literal[False]` but got `bool`.']
+Line 107: Unexpected errors ['overloads_evaluation.py:107:4 Assert type [70]: Expected `Union[typing_extensions.Literal[0], typing_extensions.Literal[1]]` but got `typing_extensions.Literal[0]`.']
+Line 129: Unexpected errors ['overloads_evaluation.py:129:23 Incompatible parameter type [6]: In call `expand_enum`, for 1st positional argument, expected `typing_extensions.Literal[Color.RED]` but got `Color`.']
+Line 130: Unexpected errors ['overloads_evaluation.py:130:4 Assert type [70]: Expected `Union[typing_extensions.Literal[0], typing_extensions.Literal[1]]` but got `typing_extensions.Literal[0]`.']
+Line 147: Unexpected errors ['overloads_evaluation.py:147:29 Incompatible parameter type [6]: In call `expand_type_union`, for 1st positional argument, expected `Type[int]` but got `Type[Union[int, str]]`.']
+Line 148: Unexpected errors ['overloads_evaluation.py:148:4 Assert type [70]: Expected `Union[int, str]` but got `int`.']
+Line 169: Unexpected errors ['overloads_evaluation.py:169:24 Incompatible parameter type [6]: In call `expand_tuple`, for 1st positional argument, expected `Tuple[int, int]` but got `Tuple[int, Union[int, str]]`.']
+Line 170: Unexpected errors ['overloads_evaluation.py:170:4 Assert type [70]: Expected `Union[int, str]` but got `int`.']
+Line 196: Unexpected errors ['overloads_evaluation.py:196:4 Assert type [70]: Expected `int` but got `str`.']
+Line 224: Unexpected errors ['overloads_evaluation.py:224:4 Assert type [70]: Expected `typing.Any` but got `int`.']
+"""
+output = """
+overloads_evaluation.py:32:0 Missing argument [20]: Call `example1` expects argument `x`.
+overloads_evaluation.py:40:12 Incompatible parameter type [6]: In call `example1`, for 2nd positional argument, expected `str` but got `int`.
+overloads_evaluation.py:45:9 Incompatible parameter type [6]: In call `example1`, for 1st positional argument, expected `str` but got `int`.
+overloads_evaluation.py:81:23 Incompatible parameter type [6]: In call `example2`, for 2nd positional argument, expected `str` but got `Union[int, str]`.
+overloads_evaluation.py:82:4 Assert type [70]: Expected `Union[int, str]` but got `str`.
+overloads_evaluation.py:89:13 Incompatible parameter type [6]: In call `example2`, for 1st positional argument, expected `int` but got `Union[int, str]`.
+overloads_evaluation.py:89:16 Incompatible parameter type [6]: In call `example2`, for 2nd positional argument, expected `str` but got `Union[int, str]`.
+overloads_evaluation.py:106:23 Incompatible parameter type [6]: In call `expand_bool`, for 1st positional argument, expected `typing_extensions.Literal[False]` but got `bool`.
+overloads_evaluation.py:107:4 Assert type [70]: Expected `Union[typing_extensions.Literal[0], typing_extensions.Literal[1]]` but got `typing_extensions.Literal[0]`.
+overloads_evaluation.py:129:23 Incompatible parameter type [6]: In call `expand_enum`, for 1st positional argument, expected `typing_extensions.Literal[Color.RED]` but got `Color`.
+overloads_evaluation.py:130:4 Assert type [70]: Expected `Union[typing_extensions.Literal[0], typing_extensions.Literal[1]]` but got `typing_extensions.Literal[0]`.
+overloads_evaluation.py:147:29 Incompatible parameter type [6]: In call `expand_type_union`, for 1st positional argument, expected `Type[int]` but got `Type[Union[int, str]]`.
+overloads_evaluation.py:148:4 Assert type [70]: Expected `Union[int, str]` but got `int`.
+overloads_evaluation.py:169:24 Incompatible parameter type [6]: In call `expand_tuple`, for 1st positional argument, expected `Tuple[int, int]` but got `Tuple[int, Union[int, str]]`.
+overloads_evaluation.py:170:4 Assert type [70]: Expected `Union[int, str]` but got `int`.
+overloads_evaluation.py:196:4 Assert type [70]: Expected `int` but got `str`.
+overloads_evaluation.py:224:4 Assert type [70]: Expected `typing.Any` but got `int`.
+"""

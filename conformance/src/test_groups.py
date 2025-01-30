@@ -4,6 +4,7 @@ conformance test suite.
 """
 
 from dataclasses import dataclass
+from itertools import chain
 from pathlib import Path
 from typing import Mapping, Sequence
 
@@ -39,7 +40,7 @@ def get_test_cases(
     # files that support one or more tests.
     test_cases = [
         p
-        for p in Path(tests_dir).glob("*.py")
+        for p in chain(tests_dir.glob("*.py"), tests_dir.glob("*.pyi"))
         if p.name.split("_")[0] in test_group_names
     ]
 

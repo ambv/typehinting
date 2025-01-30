@@ -1,11 +1,9 @@
 conformant = "Pass"
 output = """
-overloads_basic.py:37: error: No overload variant of "__getitem__" of "Bytes" matches argument type "str"  [call-overload]
-overloads_basic.py:37: note: Possible overload variants:
-overloads_basic.py:37: note:     def __getitem__(self, int, /) -> int
-overloads_basic.py:37: note:     def __getitem__(self, slice[Any, Any, Any], /) -> bytes
-overloads_basic.py:62: error: Single overload definition, multiple required  [misc]
-overloads_basic.py:74: error: An overloaded function outside a stub file must have an implementation  [no-overload-impl]
+overloads_basic.py:39: error: No overload variant of "__getitem__" of "Bytes" matches argument type "str"  [call-overload]
+overloads_basic.py:39: note: Possible overload variants:
+overloads_basic.py:39: note:     def __getitem__(self, int, /) -> int
+overloads_basic.py:39: note:     def __getitem__(self, slice[Any, Any, Any], /) -> bytes
 """
 conformance_automated = "Pass"
 errors_diff = """

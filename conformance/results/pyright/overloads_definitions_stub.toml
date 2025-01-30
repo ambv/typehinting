@@ -1,0 +1,20 @@
+conformant = "Partial"
+notes = """
+Does not enforce that @final/@override in a stub should be only on first overload.
+Does not enforce @override when correctly used with an overloaded method in a stub file.
+"""
+conformance_automated = "Fail"
+errors_diff = """
+Line 168: Expected 1 errors
+Lines 80, 82, 85, 87: Expected error (tag 'invalid_final')
+Lines 96, 98, 101: Expected error (tag 'invalid_final_2')
+Lines 140, 142: Expected error (tag 'bad_override')
+"""
+output = """
+overloads_definitions_stub.pyi:14:5 - error: "func1" is marked as overload, but additional overloads are missing (reportInconsistentOverload)
+overloads_definitions_stub.pyi:38:9 - error: Overloads for "func5" use @staticmethod inconsistently (reportInconsistentOverload)
+overloads_definitions_stub.pyi:38:15 - warning: Instance methods should take a "self" parameter (reportSelfClsParameterName)
+overloads_definitions_stub.pyi:48:9 - error: Overloads for "func6" use @classmethod inconsistently (reportInconsistentOverload)
+overloads_definitions_stub.pyi:52:15 - warning: Instance methods should take a "self" parameter (reportSelfClsParameterName)
+overloads_definitions_stub.pyi:133:9 - error: Method "final_method" cannot override final method defined in class "Base" (reportIncompatibleMethodOverride)
+"""

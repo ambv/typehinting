@@ -1,0 +1,312 @@
+conformant = "Fail"
+notes = """
+Does not reject a function with a single @overload signature.
+Does not reject a function with @overload signature but no implementation.
+Does not allow an overload with no implementation in a Protocol or an abstract base class.
+Does not error on overloads inconsistently decorated with `@staticmethod` or `@classmethod`.
+Does not enforce any rules on location of @final or @override decorators.
+"""
+conformance_automated = "Fail"
+errors_diff = """
+Line 245: Expected 1 errors
+Lines 14, 15: Expected error (tag 'func1')
+Lines 26, 27: Expected error (tag 'func2')
+Lines 63, 64: Expected error (tag 'not_abstract')
+Lines 78, 80, 85, 88: Expected error (tag 'func5')
+Lines 91, 93, 97, 101: Expected error (tag 'func6')
+Lines 133, 135, 139: Expected error (tag 'invalid_final')
+Lines 148, 150: Expected error (tag 'invalid_final_2')
+Line 6: Unexpected errors ['overloads_definitions.py:6:1: \\x1b[1m\\x1b[31merror\\x1b[39m\\x1b[0m: in <module>: typing.override not supported yet [not-supported-yet]']
+Line 46: Unexpected errors ["overloads_definitions.py:46:9: \\x1b[1m\\x1b[31merror\\x1b[39m\\x1b[0m: in func3: @typing.overload-decorated 'MyProto.func3' object is not callable [not-callable]"]
+Line 58: Unexpected errors ["overloads_definitions.py:58:9: \\x1b[1m\\x1b[31merror\\x1b[39m\\x1b[0m: in func4: @typing.overload-decorated 'MyAbstractBase.func4' object is not callable [not-callable]"]
+Line 70: Unexpected errors ["overloads_definitions.py:70:9: \\x1b[1m\\x1b[31merror\\x1b[39m\\x1b[0m: in not_abstract: @typing.overload-decorated 'MyAbstractBase.not_abstract' object is not callable [not-callable]"]
+Line 81: Unexpected errors ['overloads_definitions.py:81:9: \\x1b[1m\\x1b[31merror\\x1b[39m\\x1b[0m: in func5: bad return type [bad-return-type]']
+Line 86: Unexpected errors ['overloads_definitions.py:86:9: \\x1b[1m\\x1b[31merror\\x1b[39m\\x1b[0m: in func5: bad return type [bad-return-type]']
+Line 129: Unexpected errors ['overloads_definitions.py:129:9: \\x1b[1m\\x1b[31merror\\x1b[39m\\x1b[0m: in final_method: bad return type [bad-return-type]', 'overloads_definitions.py:129:9: \\x1b[1m\\x1b[31merror\\x1b[39m\\x1b[0m: in final_method: bad return type [bad-return-type]']
+Line 143: Unexpected errors ['overloads_definitions.py:143:9: \\x1b[1m\\x1b[31merror\\x1b[39m\\x1b[0m: in invalid_final: bad return type [bad-return-type]', 'overloads_definitions.py:143:9: \\x1b[1m\\x1b[31merror\\x1b[39m\\x1b[0m: in invalid_final: bad return type [bad-return-type]']
+Line 160: Unexpected errors ['overloads_definitions.py:160:9: \\x1b[1m\\x1b[31merror\\x1b[39m\\x1b[0m: in invalid_final_2: bad return type [bad-return-type]', 'overloads_definitions.py:160:9: \\x1b[1m\\x1b[31merror\\x1b[39m\\x1b[0m: in invalid_final_2: bad return type [bad-return-type]']
+Line 176: Unexpected errors ['overloads_definitions.py:176:9: \\x1b[1m\\x1b[31merror\\x1b[39m\\x1b[0m: in good_override: bad return type [bad-return-type]', 'overloads_definitions.py:176:9: \\x1b[1m\\x1b[31merror\\x1b[39m\\x1b[0m: in good_override: bad return type [bad-return-type]']
+Line 187: Unexpected errors ['overloads_definitions.py:187:9: \\x1b[1m\\x1b[31merror\\x1b[39m\\x1b[0m: in to_override: bad return type [bad-return-type]', 'overloads_definitions.py:187:9: \\x1b[1m\\x1b[31merror\\x1b[39m\\x1b[0m: in to_override: bad return type [bad-return-type]']
+Line 205: Unexpected errors ['overloads_definitions.py:205:9: \\x1b[1m\\x1b[31merror\\x1b[39m\\x1b[0m: in final_method: bad return type [bad-return-type]', 'overloads_definitions.py:205:9: \\x1b[1m\\x1b[31merror\\x1b[39m\\x1b[0m: in final_method: bad return type [bad-return-type]']
+Line 221: Unexpected errors ['overloads_definitions.py:221:9: \\x1b[1m\\x1b[31merror\\x1b[39m\\x1b[0m: in bad_override: bad return type [bad-return-type]', 'overloads_definitions.py:221:9: \\x1b[1m\\x1b[31merror\\x1b[39m\\x1b[0m: in bad_override: bad return type [bad-return-type]']
+Line 240: Unexpected errors ['overloads_definitions.py:240:9: \\x1b[1m\\x1b[31merror\\x1b[39m\\x1b[0m: in good_override: bad return type [bad-return-type]', 'overloads_definitions.py:240:9: \\x1b[1m\\x1b[31merror\\x1b[39m\\x1b[0m: in good_override: bad return type [bad-return-type]']
+Line 257: Unexpected errors ['overloads_definitions.py:257:9: \\x1b[1m\\x1b[31merror\\x1b[39m\\x1b[0m: in to_override: bad return type [bad-return-type]', 'overloads_definitions.py:257:9: \\x1b[1m\\x1b[31merror\\x1b[39m\\x1b[0m: in to_override: bad return type [bad-return-type]']
+"""
+output = """
+overloads_definitions.py:6:1: \u001b[1m\u001b[31merror\u001b[39m\u001b[0m: in <module>: typing.override not supported yet [not-supported-yet]
+
+from typing import (
+\u001b[1m\u001b[31m~~~~~~~~~~~~~~~~~~~~\u001b[39m\u001b[0m
+    final,
+\u001b[1m\u001b[31m~~~~~~~~~~\u001b[39m\u001b[0m
+    Protocol,
+\u001b[1m\u001b[31m~~~~~~~~~~~~~\u001b[39m\u001b[0m
+    overload,
+\u001b[1m\u001b[31m~~~~~~~~~~~~~\u001b[39m\u001b[0m
+    override,
+\u001b[1m\u001b[31m~~~~~~~~~~~~~\u001b[39m\u001b[0m
+)
+\u001b[1m\u001b[31m~\u001b[39m\u001b[0m
+
+overloads_definitions.py:46:9: \u001b[1m\u001b[31merror\u001b[39m\u001b[0m: in func3: @typing.overload-decorated 'MyProto.func3' object is not callable [not-callable]
+
+        ...
+        \u001b[1m\u001b[31m~~~\u001b[39m\u001b[0m
+
+overloads_definitions.py:58:9: \u001b[1m\u001b[31merror\u001b[39m\u001b[0m: in func4: @typing.overload-decorated 'MyAbstractBase.func4' object is not callable [not-callable]
+
+        ...
+        \u001b[1m\u001b[31m~~~\u001b[39m\u001b[0m
+
+overloads_definitions.py:70:9: \u001b[1m\u001b[31merror\u001b[39m\u001b[0m: in not_abstract: @typing.overload-decorated 'MyAbstractBase.not_abstract' object is not callable [not-callable]
+
+        ...
+        \u001b[1m\u001b[31m~~~\u001b[39m\u001b[0m
+
+overloads_definitions.py:81:9: \u001b[1m\u001b[31merror\u001b[39m\u001b[0m: in func5: bad return type [bad-return-type]
+
+        ...
+        \u001b[1m\u001b[31m~~~\u001b[39m\u001b[0m
+
+overloads_definitions.py:86:9: \u001b[1m\u001b[31merror\u001b[39m\u001b[0m: in func5: bad return type [bad-return-type]
+
+        ...
+        \u001b[1m\u001b[31m~~~\u001b[39m\u001b[0m
+
+overloads_definitions.py:129:9: \u001b[1m\u001b[31merror\u001b[39m\u001b[0m: in final_method: bad return type [bad-return-type]
+
+        ...
+        \u001b[1m\u001b[31m~~~\u001b[39m\u001b[0m
+
+overloads_definitions.py:129:9: \u001b[1m\u001b[31merror\u001b[39m\u001b[0m: in final_method: bad return type [bad-return-type]
+
+        ...
+        \u001b[1m\u001b[31m~~~\u001b[39m\u001b[0m
+
+overloads_definitions.py:143:9: \u001b[1m\u001b[31merror\u001b[39m\u001b[0m: in invalid_final: bad return type [bad-return-type]
+
+        ...
+        \u001b[1m\u001b[31m~~~\u001b[39m\u001b[0m
+
+overloads_definitions.py:143:9: \u001b[1m\u001b[31merror\u001b[39m\u001b[0m: in invalid_final: bad return type [bad-return-type]
+
+        ...
+        \u001b[1m\u001b[31m~~~\u001b[39m\u001b[0m
+
+overloads_definitions.py:160:9: \u001b[1m\u001b[31merror\u001b[39m\u001b[0m: in invalid_final_2: bad return type [bad-return-type]
+
+        ...
+        \u001b[1m\u001b[31m~~~\u001b[39m\u001b[0m
+
+overloads_definitions.py:160:9: \u001b[1m\u001b[31merror\u001b[39m\u001b[0m: in invalid_final_2: bad return type [bad-return-type]
+
+        ...
+        \u001b[1m\u001b[31m~~~\u001b[39m\u001b[0m
+
+overloads_definitions.py:176:9: \u001b[1m\u001b[31merror\u001b[39m\u001b[0m: in good_override: bad return type [bad-return-type]
+
+        ...
+        \u001b[1m\u001b[31m~~~\u001b[39m\u001b[0m
+
+overloads_definitions.py:176:9: \u001b[1m\u001b[31merror\u001b[39m\u001b[0m: in good_override: bad return type [bad-return-type]
+
+        ...
+        \u001b[1m\u001b[31m~~~\u001b[39m\u001b[0m
+
+overloads_definitions.py:187:9: \u001b[1m\u001b[31merror\u001b[39m\u001b[0m: in to_override: bad return type [bad-return-type]
+
+        ...
+        \u001b[1m\u001b[31m~~~\u001b[39m\u001b[0m
+
+overloads_definitions.py:187:9: \u001b[1m\u001b[31merror\u001b[39m\u001b[0m: in to_override: bad return type [bad-return-type]
+
+        ...
+        \u001b[1m\u001b[31m~~~\u001b[39m\u001b[0m
+
+overloads_definitions.py:190:1: \u001b[1m\u001b[31merror\u001b[39m\u001b[0m: in <module>: Class Child overrides final method final_method, defined in base class Base [final-error]
+
+class Child(Base):  # E[override-final]
+\u001b[1m\u001b[31m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\u001b[39m\u001b[0m
+
+\u001b[1m\u001b[31m\u001b[39m\u001b[0m
+    # The correctly-decorated @final method `Base.final_method` should cause an
+\u001b[1m\u001b[31m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\u001b[39m\u001b[0m
+    # error if overridden in a child class (we use an overload here to avoid
+\u001b[1m\u001b[31m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\u001b[39m\u001b[0m
+    # questions of override LSP compatibility and focus only on the override):
+\u001b[1m\u001b[31m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\u001b[39m\u001b[0m
+
+\u001b[1m\u001b[31m\u001b[39m\u001b[0m
+    @overload # E[override-final]
+\u001b[1m\u001b[31m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\u001b[39m\u001b[0m
+    def final_method(self, x: int) -> int:
+\u001b[1m\u001b[31m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\u001b[39m\u001b[0m
+        ...
+\u001b[1m\u001b[31m~~~~~~~~~~~\u001b[39m\u001b[0m
+
+\u001b[1m\u001b[31m\u001b[39m\u001b[0m
+    @overload
+\u001b[1m\u001b[31m~~~~~~~~~~~~~\u001b[39m\u001b[0m
+    def final_method(self, x: str) -> str:
+\u001b[1m\u001b[31m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\u001b[39m\u001b[0m
+        ...
+\u001b[1m\u001b[31m~~~~~~~~~~~\u001b[39m\u001b[0m
+
+\u001b[1m\u001b[31m\u001b[39m\u001b[0m
+    def final_method(self, x: int | str) -> int | str:  # E[override-final] can't override final method
+\u001b[1m\u001b[31m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\u001b[39m\u001b[0m
+        ...
+\u001b[1m\u001b[31m~~~~~~~~~~~\u001b[39m\u001b[0m
+
+\u001b[1m\u001b[31m\u001b[39m\u001b[0m
+    # This is the right way to mark an overload as @override (decorate
+\u001b[1m\u001b[31m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\u001b[39m\u001b[0m
+    # implementation only), so the use of @override should cause an error
+\u001b[1m\u001b[31m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\u001b[39m\u001b[0m
+    # (because there's no `Base.bad_override` method):
+\u001b[1m\u001b[31m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\u001b[39m\u001b[0m
+
+\u001b[1m\u001b[31m\u001b[39m\u001b[0m
+    @overload  # E[bad_override] marked as override but doesn't exist in base
+\u001b[1m\u001b[31m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\u001b[39m\u001b[0m
+    def bad_override(self, x: int) -> int:  # E[bad_override]
+\u001b[1m\u001b[31m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\u001b[39m\u001b[0m
+        ...
+\u001b[1m\u001b[31m~~~~~~~~~~~\u001b[39m\u001b[0m
+
+\u001b[1m\u001b[31m\u001b[39m\u001b[0m
+    @overload
+\u001b[1m\u001b[31m~~~~~~~~~~~~~\u001b[39m\u001b[0m
+    def bad_override(self, x: str) -> str:
+\u001b[1m\u001b[31m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\u001b[39m\u001b[0m
+        ...
+\u001b[1m\u001b[31m~~~~~~~~~~~\u001b[39m\u001b[0m
+
+\u001b[1m\u001b[31m\u001b[39m\u001b[0m
+    @override
+\u001b[1m\u001b[31m~~~~~~~~~~~~~\u001b[39m\u001b[0m
+    def bad_override(self, x: int | str) -> int | str: # E[bad_override]
+\u001b[1m\u001b[31m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\u001b[39m\u001b[0m
+        ...
+\u001b[1m\u001b[31m~~~~~~~~~~~\u001b[39m\u001b[0m
+
+\u001b[1m\u001b[31m\u001b[39m\u001b[0m
+    # This is also a correctly-decorated overloaded @override, which is
+\u001b[1m\u001b[31m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\u001b[39m\u001b[0m
+    # overriding a method that does exist in the base, so there should be no
+\u001b[1m\u001b[31m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\u001b[39m\u001b[0m
+    # error. We need both this test and the previous one, because in the
+\u001b[1m\u001b[31m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\u001b[39m\u001b[0m
+    # previous test, an incorrect error about the use of @override decorator
+\u001b[1m\u001b[31m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\u001b[39m\u001b[0m
+    # could appear on the same line as the expected error about overriding a
+\u001b[1m\u001b[31m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\u001b[39m\u001b[0m
+    # method that doesn't exist in base:
+\u001b[1m\u001b[31m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\u001b[39m\u001b[0m
+
+\u001b[1m\u001b[31m\u001b[39m\u001b[0m
+    @overload
+\u001b[1m\u001b[31m~~~~~~~~~~~~~\u001b[39m\u001b[0m
+    def good_override(self, x: int) -> int:
+\u001b[1m\u001b[31m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\u001b[39m\u001b[0m
+        ...
+\u001b[1m\u001b[31m~~~~~~~~~~~\u001b[39m\u001b[0m
+
+\u001b[1m\u001b[31m\u001b[39m\u001b[0m
+    @overload
+\u001b[1m\u001b[31m~~~~~~~~~~~~~\u001b[39m\u001b[0m
+    def good_override(self, x: str) -> str:
+\u001b[1m\u001b[31m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\u001b[39m\u001b[0m
+        ...
+\u001b[1m\u001b[31m~~~~~~~~~~~\u001b[39m\u001b[0m
+
+\u001b[1m\u001b[31m\u001b[39m\u001b[0m
+    @override
+\u001b[1m\u001b[31m~~~~~~~~~~~~~\u001b[39m\u001b[0m
+    def good_override(self, x: int | str) -> int | str:
+\u001b[1m\u001b[31m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\u001b[39m\u001b[0m
+        ...
+\u001b[1m\u001b[31m~~~~~~~~~~~\u001b[39m\u001b[0m
+
+\u001b[1m\u001b[31m\u001b[39m\u001b[0m
+    # This is the wrong way to use @override with an overloaded method, and
+\u001b[1m\u001b[31m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\u001b[39m\u001b[0m
+    # should emit an error:
+\u001b[1m\u001b[31m~~~~~~~~~~~~~~~~~~~~~~~~~~~\u001b[39m\u001b[0m
+
+\u001b[1m\u001b[31m\u001b[39m\u001b[0m
+    @overload  # E: @override should appear only on implementation
+\u001b[1m\u001b[31m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\u001b[39m\u001b[0m
+    @override
+\u001b[1m\u001b[31m~~~~~~~~~~~~~\u001b[39m\u001b[0m
+    def to_override(self, x: int) -> int:
+\u001b[1m\u001b[31m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\u001b[39m\u001b[0m
+        ...
+\u001b[1m\u001b[31m~~~~~~~~~~~\u001b[39m\u001b[0m
+
+\u001b[1m\u001b[31m\u001b[39m\u001b[0m
+    @overload
+\u001b[1m\u001b[31m~~~~~~~~~~~~~\u001b[39m\u001b[0m
+    @override
+\u001b[1m\u001b[31m~~~~~~~~~~~~~\u001b[39m\u001b[0m
+    def to_override(self, x: str) -> str:
+\u001b[1m\u001b[31m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\u001b[39m\u001b[0m
+        ...
+\u001b[1m\u001b[31m~~~~~~~~~~~\u001b[39m\u001b[0m
+
+\u001b[1m\u001b[31m\u001b[39m\u001b[0m
+    @override
+\u001b[1m\u001b[31m~~~~~~~~~~~~~\u001b[39m\u001b[0m
+    def to_override(self, x: int | str) -> int | str:
+\u001b[1m\u001b[31m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\u001b[39m\u001b[0m
+        ...
+\u001b[1m\u001b[31m~~~~~~~~~~~\u001b[39m\u001b[0m
+
+overloads_definitions.py:205:9: \u001b[1m\u001b[31merror\u001b[39m\u001b[0m: in final_method: bad return type [bad-return-type]
+
+        ...
+        \u001b[1m\u001b[31m~~~\u001b[39m\u001b[0m
+
+overloads_definitions.py:205:9: \u001b[1m\u001b[31merror\u001b[39m\u001b[0m: in final_method: bad return type [bad-return-type]
+
+        ...
+        \u001b[1m\u001b[31m~~~\u001b[39m\u001b[0m
+
+overloads_definitions.py:212:5: \u001b[1m\u001b[31merror\u001b[39m\u001b[0m: in Child: Attribute 'bad_override' not found on any parent class [override-error]
+
+    def bad_override(self, x: int) -> int:  # E[bad_override]
+    \u001b[1m\u001b[31m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\u001b[39m\u001b[0m
+        ...
+\u001b[1m\u001b[31m~~~~~~~~~~~\u001b[39m\u001b[0m
+
+overloads_definitions.py:221:9: \u001b[1m\u001b[31merror\u001b[39m\u001b[0m: in bad_override: bad return type [bad-return-type]
+
+        ...
+        \u001b[1m\u001b[31m~~~\u001b[39m\u001b[0m
+
+overloads_definitions.py:221:9: \u001b[1m\u001b[31merror\u001b[39m\u001b[0m: in bad_override: bad return type [bad-return-type]
+
+        ...
+        \u001b[1m\u001b[31m~~~\u001b[39m\u001b[0m
+
+overloads_definitions.py:240:9: \u001b[1m\u001b[31merror\u001b[39m\u001b[0m: in good_override: bad return type [bad-return-type]
+
+        ...
+        \u001b[1m\u001b[31m~~~\u001b[39m\u001b[0m
+
+overloads_definitions.py:240:9: \u001b[1m\u001b[31merror\u001b[39m\u001b[0m: in good_override: bad return type [bad-return-type]
+
+        ...
+        \u001b[1m\u001b[31m~~~\u001b[39m\u001b[0m
+
+overloads_definitions.py:257:9: \u001b[1m\u001b[31merror\u001b[39m\u001b[0m: in to_override: bad return type [bad-return-type]
+
+        ...
+        \u001b[1m\u001b[31m~~~\u001b[39m\u001b[0m
+
+overloads_definitions.py:257:9: \u001b[1m\u001b[31merror\u001b[39m\u001b[0m: in to_override: bad return type [bad-return-type]
+
+        ...
+        \u001b[1m\u001b[31m~~~\u001b[39m\u001b[0m
+
+"""

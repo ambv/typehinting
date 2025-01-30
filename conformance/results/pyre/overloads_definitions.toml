@@ -1,0 +1,32 @@
+conformant = "Partial"
+conformance_automated = "Fail"
+notes = """
+Does not allow an overload with no implementation in a Protocol or an abstract base class.
+Expects @final/@override on all overloads and implementation, instead of implementation only.
+"""
+errors_diff = """
+Line 245: Expected 1 errors
+Lines 148, 150: Expected error (tag 'invalid_final_2')
+Line 40: Unexpected errors ['overloads_definitions.py:40:4 Missing overload implementation [42]: Overloaded function `MyProto.func3` must have an implementation.']
+Line 51: Unexpected errors ['overloads_definitions.py:51:4 Missing overload implementation [42]: Overloaded function `MyAbstractBase.func4` must have an implementation.']
+Line 128: Unexpected errors ['overloads_definitions.py:128:4 Incompatible overload [43]: This definition does not have the same decorators as the preceding overload(s).']
+Line 239: Unexpected errors ['overloads_definitions.py:239:4 Incompatible overload [43]: This definition does not have the same decorators as the preceding overload(s).']
+"""
+output = """
+overloads_definitions.py:15:0 Incompatible overload [43]: At least two overload signatures must be present.
+overloads_definitions.py:27:0 Missing overload implementation [42]: Overloaded function `func2` must have an implementation.
+overloads_definitions.py:40:4 Missing overload implementation [42]: Overloaded function `MyProto.func3` must have an implementation.
+overloads_definitions.py:51:4 Missing overload implementation [42]: Overloaded function `MyAbstractBase.func4` must have an implementation.
+overloads_definitions.py:64:4 Missing overload implementation [42]: Overloaded function `MyAbstractBase.not_abstract` must have an implementation.
+overloads_definitions.py:80:4 Incompatible overload [43]: The implementation of `C.func5` does not accept all possible arguments of overload defined on line `80`.
+overloads_definitions.py:85:4 Incompatible overload [43]: The implementation of `C.func5` does not accept all possible arguments of overload defined on line `85`.
+overloads_definitions.py:88:4 Incompatible overload [43]: This definition does not have the same decorators as the preceding overload(s).
+overloads_definitions.py:97:4 Incompatible overload [43]: The implementation of `C.func6` does not accept all possible arguments of overload defined on line `97`.
+overloads_definitions.py:97:4 Incompatible overload [43]: This definition does not have the same decorators as the preceding overload(s).
+overloads_definitions.py:128:4 Incompatible overload [43]: This definition does not have the same decorators as the preceding overload(s).
+overloads_definitions.py:139:4 Incompatible overload [43]: This definition does not have the same decorators as the preceding overload(s).
+overloads_definitions.py:204:4 Invalid override [40]: `overloads_definitions.Child.final_method` cannot override final method defined in `Base`.
+overloads_definitions.py:220:4 Incompatible overload [43]: This definition does not have the same decorators as the preceding overload(s).
+overloads_definitions.py:220:4 Invalid override [40]: `overloads_definitions.Child.bad_override` is decorated with @override, but no method of the same name exists in superclasses of `Child`.
+overloads_definitions.py:239:4 Incompatible overload [43]: This definition does not have the same decorators as the preceding overload(s).
+"""

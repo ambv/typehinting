@@ -1,0 +1,18 @@
+conformant = "Partial"
+notes = """
+Allows @override to appear in a stub file not on the first overload.
+"""
+conformance_automated = "Fail"
+errors_diff = """
+Line 168: Expected 1 errors
+"""
+output = """
+overloads_definitions_stub.pyi:13: error: Single overload definition, multiple required  [misc]
+overloads_definitions_stub.pyi:37: error: Overload does not consistently use the "@staticmethod" decorator on all function signatures.  [misc]
+overloads_definitions_stub.pyi:38: error: Self argument missing for a non-static method (or an invalid type for self)  [misc]
+overloads_definitions_stub.pyi:46: error: Overload does not consistently use the "@classmethod" decorator on all function signatures.  [misc]
+overloads_definitions_stub.pyi:85: error: In a stub file @final must be applied only to the first overload  [misc]
+overloads_definitions_stub.pyi:101: error: In a stub file @final must be applied only to the first overload  [misc]
+overloads_definitions_stub.pyi:128: error: Cannot override final attribute "final_method" (previously declared in base class "Base")  [misc]
+overloads_definitions_stub.pyi:140: error: Method "bad_override" is marked as an override, but no base method was found with this name  [misc]
+"""

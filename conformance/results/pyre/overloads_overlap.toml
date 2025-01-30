@@ -1,0 +1,11 @@
+conformant = "Partial"
+notes = """
+Does not check for partially overlapping overloads with inconsistent return type.
+"""
+conformance_automated = "Fail"
+errors_diff = """
+Line 14: Expected 1 errors
+"""
+output = """
+overloads_overlap.py:36:0 Incompatible overload [43]: The overloaded function `full_overlap` on line 36 will never be matched. The signature `(x: bool) -> bool` is the same or broader.
+"""

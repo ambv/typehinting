@@ -1,0 +1,136 @@
+conformant = "Partial"
+notes = """
+Does not perform argument expansion (on any types) when matching overloads.
+Does not treat multiple matches due to gradual types as ambiguous.
+Does not prefer variadic match to indeterminate-length unpacked argument.
+"""
+conformance_automated = "Fail"
+errors_diff = """
+Line 89: Expected 1 errors
+Line 28: Unexpected errors ['overloads_evaluation.py:28:12: \\x1b[1m\\x1b[31merror\\x1b[39m\\x1b[0m: in example1: bad return type [bad-return-type]']
+Line 63: Unexpected errors ['overloads_evaluation.py:63:12: \\x1b[1m\\x1b[31merror\\x1b[39m\\x1b[0m: in example2: bad return type [bad-return-type]']
+Line 82: Unexpected errors ['overloads_evaluation.py:82:5: \\x1b[1m\\x1b[31merror\\x1b[39m\\x1b[0m: in check_expand_union: str [assert-type]']
+Line 103: Unexpected errors ['overloads_evaluation.py:103:5: \\x1b[1m\\x1b[31merror\\x1b[39m\\x1b[0m: in expand_bool: bad return type [bad-return-type]', 'overloads_evaluation.py:103:5: \\x1b[1m\\x1b[31merror\\x1b[39m\\x1b[0m: in expand_bool: bad return type [bad-return-type]']
+Line 106: Unexpected errors ['overloads_evaluation.py:106:12: \\x1b[1m\\x1b[31merror\\x1b[39m\\x1b[0m: in check_expand_bool: Function expand_bool was called with the wrong arguments [wrong-arg-types]']
+Line 107: Unexpected errors ['overloads_evaluation.py:107:5: \\x1b[1m\\x1b[31merror\\x1b[39m\\x1b[0m: in check_expand_bool: Any [assert-type]']
+Line 126: Unexpected errors ['overloads_evaluation.py:126:5: \\x1b[1m\\x1b[31merror\\x1b[39m\\x1b[0m: in expand_enum: bad return type [bad-return-type]']
+Line 129: Unexpected errors ['overloads_evaluation.py:129:12: \\x1b[1m\\x1b[31merror\\x1b[39m\\x1b[0m: in check_expand_enum: Function expand_enum was called with the wrong arguments [wrong-arg-types]']
+Line 130: Unexpected errors ['overloads_evaluation.py:130:5: \\x1b[1m\\x1b[31merror\\x1b[39m\\x1b[0m: in check_expand_enum: Any [assert-type]']
+Line 144: Unexpected errors ['overloads_evaluation.py:144:12: \\x1b[1m\\x1b[31merror\\x1b[39m\\x1b[0m: in expand_type_union: bad return type [bad-return-type]']
+Line 148: Unexpected errors ['overloads_evaluation.py:148:5: \\x1b[1m\\x1b[31merror\\x1b[39m\\x1b[0m: in check_expand_type_union: int [assert-type]']
+Line 166: Unexpected errors ['overloads_evaluation.py:166:12: \\x1b[1m\\x1b[31merror\\x1b[39m\\x1b[0m: in expand_tuple: bad return type [bad-return-type]']
+Line 170: Unexpected errors ['overloads_evaluation.py:170:5: \\x1b[1m\\x1b[31merror\\x1b[39m\\x1b[0m: in check_expand_tuple: int [assert-type]']
+Line 188: Unexpected errors ['overloads_evaluation.py:188:12: \\x1b[1m\\x1b[31merror\\x1b[39m\\x1b[0m: in variadic: bad return type [bad-return-type]']
+Line 196: Unexpected errors ['overloads_evaluation.py:196:5: \\x1b[1m\\x1b[31merror\\x1b[39m\\x1b[0m: in check_variadic: str [assert-type]']
+Line 217: Unexpected errors ['overloads_evaluation.py:217:12: \\x1b[1m\\x1b[31merror\\x1b[39m\\x1b[0m: in example4: bad return type [bad-return-type]']
+Line 224: Unexpected errors ['overloads_evaluation.py:224:5: \\x1b[1m\\x1b[31merror\\x1b[39m\\x1b[0m: in check_example4: int [assert-type]']
+"""
+output = """
+overloads_evaluation.py:28:12: \u001b[1m\u001b[31merror\u001b[39m\u001b[0m: in example1: bad return type [bad-return-type]
+
+    return 1
+           \u001b[1m\u001b[31m~\u001b[39m\u001b[0m
+
+Called from (traceback):
+  line 42, in current file
+overloads_evaluation.py:32:1: \u001b[1m\u001b[31merror\u001b[39m\u001b[0m: in <module>: Missing parameter 'x' in call to function example1 [missing-parameter]
+
+example1()  # E: no matching overload
+\u001b[1m\u001b[31m~~~~~~~~~~\u001b[39m\u001b[0m
+
+overloads_evaluation.py:40:1: \u001b[1m\u001b[31merror\u001b[39m\u001b[0m: in <module>: Function example1 was called with the wrong arguments [wrong-arg-types]
+
+example1(1, 1)  # E: Literal[1] not assignable to str
+\u001b[1m\u001b[31m~~~~~~~~~~~~~~\u001b[39m\u001b[0m
+
+overloads_evaluation.py:45:1: \u001b[1m\u001b[31merror\u001b[39m\u001b[0m: in <module>: Function example1 was called with the wrong arguments [wrong-arg-types]
+
+example1(1)  # E: Literal[1] not assignable to str
+\u001b[1m\u001b[31m~~~~~~~~~~~\u001b[39m\u001b[0m
+
+overloads_evaluation.py:63:12: \u001b[1m\u001b[31merror\u001b[39m\u001b[0m: in example2: bad return type [bad-return-type]
+
+    return 1
+           \u001b[1m\u001b[31m~\u001b[39m\u001b[0m
+
+overloads_evaluation.py:82:5: \u001b[1m\u001b[31merror\u001b[39m\u001b[0m: in check_expand_union: str [assert-type]
+
+    assert_type(ret1, int | str)
+    \u001b[1m\u001b[31m~~~~~~~~~~~~~~~~~~~~~~~~~~~~\u001b[39m\u001b[0m
+
+overloads_evaluation.py:103:5: \u001b[1m\u001b[31merror\u001b[39m\u001b[0m: in expand_bool: bad return type [bad-return-type]
+
+    return int(x)
+    \u001b[1m\u001b[31m~~~~~~~~~~~~~\u001b[39m\u001b[0m
+
+overloads_evaluation.py:103:5: \u001b[1m\u001b[31merror\u001b[39m\u001b[0m: in expand_bool: bad return type [bad-return-type]
+
+    return int(x)
+    \u001b[1m\u001b[31m~~~~~~~~~~~~~\u001b[39m\u001b[0m
+
+overloads_evaluation.py:106:12: \u001b[1m\u001b[31merror\u001b[39m\u001b[0m: in check_expand_bool: Function expand_bool was called with the wrong arguments [wrong-arg-types]
+
+    ret1 = expand_bool(v)
+           \u001b[1m\u001b[31m~~~~~~~~~~~~~~\u001b[39m\u001b[0m
+
+overloads_evaluation.py:107:5: \u001b[1m\u001b[31merror\u001b[39m\u001b[0m: in check_expand_bool: Any [assert-type]
+
+    assert_type(ret1, Literal[0, 1])
+    \u001b[1m\u001b[31m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\u001b[39m\u001b[0m
+
+overloads_evaluation.py:126:5: \u001b[1m\u001b[31merror\u001b[39m\u001b[0m: in expand_enum: bad return type [bad-return-type]
+
+    return x.value
+    \u001b[1m\u001b[31m~~~~~~~~~~~~~~\u001b[39m\u001b[0m
+
+overloads_evaluation.py:129:12: \u001b[1m\u001b[31merror\u001b[39m\u001b[0m: in check_expand_enum: Function expand_enum was called with the wrong arguments [wrong-arg-types]
+
+    ret1 = expand_enum(v)
+           \u001b[1m\u001b[31m~~~~~~~~~~~~~~\u001b[39m\u001b[0m
+
+overloads_evaluation.py:130:5: \u001b[1m\u001b[31merror\u001b[39m\u001b[0m: in check_expand_enum: Any [assert-type]
+
+    assert_type(ret1, Literal[0, 1])
+    \u001b[1m\u001b[31m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\u001b[39m\u001b[0m
+
+overloads_evaluation.py:144:12: \u001b[1m\u001b[31merror\u001b[39m\u001b[0m: in expand_type_union: bad return type [bad-return-type]
+
+    return 1
+           \u001b[1m\u001b[31m~\u001b[39m\u001b[0m
+
+overloads_evaluation.py:148:5: \u001b[1m\u001b[31merror\u001b[39m\u001b[0m: in check_expand_type_union: int [assert-type]
+
+    assert_type(ret1, int | str)
+    \u001b[1m\u001b[31m~~~~~~~~~~~~~~~~~~~~~~~~~~~~\u001b[39m\u001b[0m
+
+overloads_evaluation.py:166:12: \u001b[1m\u001b[31merror\u001b[39m\u001b[0m: in expand_tuple: bad return type [bad-return-type]
+
+    return 1
+           \u001b[1m\u001b[31m~\u001b[39m\u001b[0m
+
+overloads_evaluation.py:170:5: \u001b[1m\u001b[31merror\u001b[39m\u001b[0m: in check_expand_tuple: int [assert-type]
+
+    assert_type(ret1, int | str)
+    \u001b[1m\u001b[31m~~~~~~~~~~~~~~~~~~~~~~~~~~~~\u001b[39m\u001b[0m
+
+overloads_evaluation.py:188:12: \u001b[1m\u001b[31merror\u001b[39m\u001b[0m: in variadic: bad return type [bad-return-type]
+
+    return 1
+           \u001b[1m\u001b[31m~\u001b[39m\u001b[0m
+
+overloads_evaluation.py:196:5: \u001b[1m\u001b[31merror\u001b[39m\u001b[0m: in check_variadic: str [assert-type]
+
+    assert_type(ret1, int)
+    \u001b[1m\u001b[31m~~~~~~~~~~~~~~~~~~~~~~\u001b[39m\u001b[0m
+
+overloads_evaluation.py:217:12: \u001b[1m\u001b[31merror\u001b[39m\u001b[0m: in example4: bad return type [bad-return-type]
+
+    return 1
+           \u001b[1m\u001b[31m~\u001b[39m\u001b[0m
+
+overloads_evaluation.py:224:5: \u001b[1m\u001b[31merror\u001b[39m\u001b[0m: in check_example4: int [assert-type]
+
+    assert_type(ret2, Any)
+    \u001b[1m\u001b[31m~~~~~~~~~~~~~~~~~~~~~~\u001b[39m\u001b[0m
+
+"""

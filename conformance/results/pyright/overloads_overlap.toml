@@ -1,0 +1,8 @@
+conformant = "Pass"
+conformance_automated = "Pass"
+errors_diff = """
+"""
+output = """
+overloads_overlap.py:14:5 - error: Overload 1 for "is_one" overlaps overload 2 and returns an incompatible type (reportOverlappingOverload)
+overloads_overlap.py:36:5 - error: Overload 2 for "full_overlap" will never be used because its parameters overlap overload 1 (reportOverlappingOverload)
+"""

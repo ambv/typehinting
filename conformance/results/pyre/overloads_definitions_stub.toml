@@ -1,0 +1,27 @@
+conformant = "Partial"
+notes = """
+Expects @final and @override to be present on all overloads, not just first.
+"""
+conformance_automated = "Fail"
+errors_diff = """
+Line 168: Expected 1 errors
+Lines 80, 82, 85, 87: Expected error (tag 'invalid_final')
+Lines 96, 98, 101: Expected error (tag 'invalid_final_2')
+Lines 122, 128, 129, 133: Expected error (tag 'override-final')
+Line 75: Unexpected errors ['overloads_definitions_stub.pyi:75:4 Incompatible overload [43]: This definition does not have the same decorators as the preceding overload(s).']
+Line 91: Unexpected errors ['overloads_definitions_stub.pyi:91:4 Incompatible overload [43]: This definition does not have the same decorators as the preceding overload(s).']
+Line 146: Unexpected errors ['overloads_definitions_stub.pyi:146:4 Incompatible overload [43]: This definition does not have the same decorators as the preceding overload(s).']
+Line 162: Unexpected errors ['overloads_definitions_stub.pyi:162:4 Incompatible overload [43]: This definition does not have the same decorators as the preceding overload(s).']
+Line 174: Unexpected errors ['overloads_definitions_stub.pyi:174:4 Incompatible overload [43]: This definition does not have the same decorators as the preceding overload(s).']
+"""
+output = """
+overloads_definitions_stub.pyi:14:0 Incompatible overload [43]: At least two overload signatures must be present.
+overloads_definitions_stub.pyi:43:4 Incompatible overload [43]: This definition does not have the same decorators as the preceding overload(s).
+overloads_definitions_stub.pyi:52:4 Incompatible overload [43]: This definition does not have the same decorators as the preceding overload(s).
+overloads_definitions_stub.pyi:75:4 Incompatible overload [43]: This definition does not have the same decorators as the preceding overload(s).
+overloads_definitions_stub.pyi:91:4 Incompatible overload [43]: This definition does not have the same decorators as the preceding overload(s).
+overloads_definitions_stub.pyi:142:4 Invalid override [40]: `overloads_definitions_stub.Child.bad_override` is decorated with @override, but no method of the same name exists in superclasses of `Child`.
+overloads_definitions_stub.pyi:146:4 Incompatible overload [43]: This definition does not have the same decorators as the preceding overload(s).
+overloads_definitions_stub.pyi:162:4 Incompatible overload [43]: This definition does not have the same decorators as the preceding overload(s).
+overloads_definitions_stub.pyi:174:4 Incompatible overload [43]: This definition does not have the same decorators as the preceding overload(s).
+"""

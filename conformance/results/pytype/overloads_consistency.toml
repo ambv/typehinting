@@ -1,0 +1,56 @@
+conformant = "Fail"
+notes = """
+Doesn't appear to validate overload consistency at all.
+"""
+conformance_automated = "Fail"
+errors_diff = """
+Lines 24, 27: Expected error (tag 'return_type')
+Lines 40, 43: Expected error (tag 'parameter_type')
+Line 28: Unexpected errors ['overloads_consistency.py:28:12: \\x1b[1m\\x1b[31merror\\x1b[39m\\x1b[0m: in return_type: bad return type [bad-return-type]']
+Line 44: Unexpected errors ['overloads_consistency.py:44:12: \\x1b[1m\\x1b[31merror\\x1b[39m\\x1b[0m: in parameter_type: bad return type [bad-return-type]']
+Line 73: Unexpected errors ['overloads_consistency.py:73:12: \\x1b[1m\\x1b[31merror\\x1b[39m\\x1b[0m: in returns_coroutine: bad return type [bad-return-type]']
+Line 88: Unexpected errors ['overloads_consistency.py:88:5: \\x1b[1m\\x1b[31merror\\x1b[39m\\x1b[0m: in returns_coroutine_2: bad return type [bad-return-type]', 'overloads_consistency.py:88:5: \\x1b[1m\\x1b[31merror\\x1b[39m\\x1b[0m: in returns_coroutine_2: bad return type [bad-return-type]']
+Line 107: Unexpected errors ['overloads_consistency.py:107:1: \\x1b[1m\\x1b[31merror\\x1b[39m\\x1b[0m: in <module>: Function decorated expects 0 arg(s), got 1 [wrong-arg-count]']
+Line 115: Unexpected errors ["overloads_consistency.py:115:1: \\x1b[1m\\x1b[31merror\\x1b[39m\\x1b[0m: in <module>: Missing parameter 'z' in call to function decorated [missing-parameter]"]
+"""
+output = """
+overloads_consistency.py:28:12: \u001b[1m\u001b[31merror\u001b[39m\u001b[0m: in return_type: bad return type [bad-return-type]
+
+    return 1
+           \u001b[1m\u001b[31m~\u001b[39m\u001b[0m
+
+overloads_consistency.py:44:12: \u001b[1m\u001b[31merror\u001b[39m\u001b[0m: in parameter_type: bad return type [bad-return-type]
+
+    return 1
+           \u001b[1m\u001b[31m~\u001b[39m\u001b[0m
+
+overloads_consistency.py:73:12: \u001b[1m\u001b[31merror\u001b[39m\u001b[0m: in returns_coroutine: bad return type [bad-return-type]
+
+    return 1
+           \u001b[1m\u001b[31m~\u001b[39m\u001b[0m
+
+overloads_consistency.py:88:5: \u001b[1m\u001b[31merror\u001b[39m\u001b[0m: in returns_coroutine_2: bad return type [bad-return-type]
+
+    return _wrapped(x)
+    \u001b[1m\u001b[31m~~~~~~~~~~~~~~~~~~\u001b[39m\u001b[0m
+
+overloads_consistency.py:88:5: \u001b[1m\u001b[31merror\u001b[39m\u001b[0m: in returns_coroutine_2: bad return type [bad-return-type]
+
+    return _wrapped(x)
+    \u001b[1m\u001b[31m~~~~~~~~~~~~~~~~~~\u001b[39m\u001b[0m
+
+overloads_consistency.py:107:1: \u001b[1m\u001b[31merror\u001b[39m\u001b[0m: in <module>: Function decorated expects 0 arg(s), got 1 [wrong-arg-count]
+
+def decorated() -> None:
+\u001b[1m\u001b[31m~~~~~~~~~~~~~~~~~~~~~~~~\u001b[39m\u001b[0m
+    ...
+\u001b[1m\u001b[31m~~~~~~~\u001b[39m\u001b[0m
+
+overloads_consistency.py:115:1: \u001b[1m\u001b[31merror\u001b[39m\u001b[0m: in <module>: Missing parameter 'z' in call to function decorated [missing-parameter]
+
+def decorated(y: bytes, z: bytes) -> bytes:
+\u001b[1m\u001b[31m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\u001b[39m\u001b[0m
+    return b""
+\u001b[1m\u001b[31m~~~~~~~~~~~~~~\u001b[39m\u001b[0m
+
+"""

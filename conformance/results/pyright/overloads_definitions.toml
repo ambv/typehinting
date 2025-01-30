@@ -1,0 +1,32 @@
+conformant = "Partial"
+notes = """
+Allows @final/@override on all overloads and implementation; should be implementation-only.
+"""
+conformance_automated = "Fail"
+errors_diff = """
+Line 245: Expected 1 errors
+Lines 148, 150: Expected error (tag 'invalid_final_2')
+"""
+output = """
+overloads_definitions.py:15:5 - error: "func1" is marked as overload, but additional overloads are missing (reportInconsistentOverload)
+overloads_definitions.py:27:5 - error: "func2" is marked as overload, but no implementation is provided (reportNoOverloadImplementation)
+overloads_definitions.py:64:9 - error: "not_abstract" is marked as overload, but no implementation is provided (reportNoOverloadImplementation)
+overloads_definitions.py:80:9 - error: Overloads for "func5" use @staticmethod inconsistently (reportInconsistentOverload)
+overloads_definitions.py:88:9 - error: Overloaded implementation is not consistent with signature of overload 1
+  Type "(self: Self@C, x: int | str) -> (int | str)" is not assignable to type "(x: int) -> int"
+    Parameter name mismatch: "x" versus "self"
+    Parameter 1: type "int" is incompatible with type "Self@C"
+      Type "int" is not assignable to type "Self@C"
+    Extra parameter "x" (reportInconsistentOverload)
+overloads_definitions.py:88:9 - error: Overloaded implementation is not consistent with signature of overload 2
+  Type "(self: Self@C, x: int | str) -> (int | str)" is not assignable to type "(x: str) -> str"
+    Parameter name mismatch: "x" versus "self"
+    Parameter 1: type "str" is incompatible with type "Self@C"
+      Type "str" is not assignable to type "Self@C"
+    Extra parameter "x" (reportInconsistentOverload)
+overloads_definitions.py:93:9 - error: Overloads for "func6" use @classmethod inconsistently (reportInconsistentOverload)
+overloads_definitions.py:97:15 - warning: Instance methods should take a "self" parameter (reportSelfClsParameterName)
+overloads_definitions.py:135:9 - error: Overload for "invalid_final" is marked @final but implementation is not (reportInconsistentOverload)
+overloads_definitions.py:204:9 - error: Method "final_method" cannot override final method defined in class "Base" (reportIncompatibleMethodOverride)
+overloads_definitions.py:220:9 - error: Method "bad_override" is marked as override, but no base method of same name is present (reportGeneralTypeIssues)
+"""

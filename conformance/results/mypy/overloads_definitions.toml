@@ -1,0 +1,24 @@
+conformant = "Partial"
+conformance_automated = "Fail"
+notes = """
+Does not allow an overload with no implementation in an abstract base class.
+Allows @override to be on all overloads and implementation, instead of just implementation.
+"""
+errors_diff = """
+Line 245: Expected 1 errors
+Line 49: Unexpected errors ['overloads_definitions.py:49: error: An overloaded function outside a stub file must have an implementation  [no-overload-impl]']
+"""
+output = """
+overloads_definitions.py:14: error: Single overload definition, multiple required  [misc]
+overloads_definitions.py:26: error: An overloaded function outside a stub file must have an implementation  [no-overload-impl]
+overloads_definitions.py:49: error: An overloaded function outside a stub file must have an implementation  [no-overload-impl]
+overloads_definitions.py:63: error: An overloaded function outside a stub file must have an implementation  [no-overload-impl]
+overloads_definitions.py:78: error: Overload does not consistently use the "@staticmethod" decorator on all function signatures.  [misc]
+overloads_definitions.py:88: error: Overloaded function implementation does not accept all possible arguments of signature 1  [misc]
+overloads_definitions.py:88: error: Overloaded function implementation does not accept all possible arguments of signature 2  [misc]
+overloads_definitions.py:91: error: Overload does not consistently use the "@classmethod" decorator on all function signatures.  [misc]
+overloads_definitions.py:133: error: @final should be applied only to overload implementation  [misc]
+overloads_definitions.py:148: error: @final should be applied only to overload implementation  [misc]
+overloads_definitions.py:196: error: Cannot override final attribute "final_method" (previously declared in base class "Base")  [misc]
+overloads_definitions.py:211: error: Method "bad_override" is marked as an override, but no base method was found with this name  [misc]
+"""

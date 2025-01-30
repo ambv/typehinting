@@ -1,0 +1,43 @@
+conformant = "Partial"
+notes = """
+Does not expand boolean arguments to Literal[True] and Literal[False].
+Does not expand enum arguments to literal variants.
+Does not expand tuple arguments to possible combinations.
+"""
+conformance_automated = "Fail"
+errors_diff = """
+Line 106: Unexpected errors ['overloads_evaluation.py:106: error: No overload variant of "expand_bool" matches argument type "bool"  [call-overload]']
+Line 107: Unexpected errors ['overloads_evaluation.py:107: error: Expression is of type "Any", not "Literal[0, 1]"  [assert-type]']
+Line 129: Unexpected errors ['overloads_evaluation.py:129: error: No overload variant of "expand_enum" matches argument type "Color"  [call-overload]']
+Line 130: Unexpected errors ['overloads_evaluation.py:130: error: Expression is of type "Any", not "Literal[0, 1]"  [assert-type]']
+Line 169: Unexpected errors ['overloads_evaluation.py:169: error: Argument 1 to "expand_tuple" has incompatible type "tuple[int, int | str]"; expected "tuple[int, int]"  [arg-type]']
+Line 170: Unexpected errors ['overloads_evaluation.py:170: error: Expression is of type "int", not "int | str"  [assert-type]']
+"""
+output = """
+overloads_evaluation.py:32: error: All overload variants of "example1" require at least one argument  [call-overload]
+overloads_evaluation.py:32: note: Possible overload variants:
+overloads_evaluation.py:32: note:     def example1(x: int, y: str) -> int
+overloads_evaluation.py:32: note:     def example1(x: str) -> str
+overloads_evaluation.py:40: error: No overload variant of "example1" matches argument types "int", "int"  [call-overload]
+overloads_evaluation.py:40: note: Possible overload variants:
+overloads_evaluation.py:40: note:     def example1(x: int, y: str) -> int
+overloads_evaluation.py:40: note:     def example1(x: str) -> str
+overloads_evaluation.py:45: error: No overload variant of "example1" matches argument type "int"  [call-overload]
+overloads_evaluation.py:45: note: Possible overload variants:
+overloads_evaluation.py:45: note:     def example1(x: int, y: str) -> int
+overloads_evaluation.py:45: note:     def example1(x: str) -> str
+overloads_evaluation.py:89: error: Argument 1 to "example2" has incompatible type "int | str"; expected "int"  [arg-type]
+overloads_evaluation.py:89: error: Argument 2 to "example2" has incompatible type "int | str"; expected "str"  [arg-type]
+overloads_evaluation.py:106: error: No overload variant of "expand_bool" matches argument type "bool"  [call-overload]
+overloads_evaluation.py:106: note: Possible overload variants:
+overloads_evaluation.py:106: note:     def expand_bool(x: Literal[False]) -> Literal[0]
+overloads_evaluation.py:106: note:     def expand_bool(x: Literal[True]) -> Literal[1]
+overloads_evaluation.py:107: error: Expression is of type "Any", not "Literal[0, 1]"  [assert-type]
+overloads_evaluation.py:129: error: No overload variant of "expand_enum" matches argument type "Color"  [call-overload]
+overloads_evaluation.py:129: note: Possible overload variants:
+overloads_evaluation.py:129: note:     def expand_enum(x: Literal[Color.RED]) -> Literal[0]
+overloads_evaluation.py:129: note:     def expand_enum(x: Literal[Color.BLUE]) -> Literal[1]
+overloads_evaluation.py:130: error: Expression is of type "Any", not "Literal[0, 1]"  [assert-type]
+overloads_evaluation.py:169: error: Argument 1 to "expand_tuple" has incompatible type "tuple[int, int | str]"; expected "tuple[int, int]"  [arg-type]
+overloads_evaluation.py:170: error: Expression is of type "int", not "int | str"  [assert-type]
+"""

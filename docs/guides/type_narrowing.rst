@@ -195,14 +195,90 @@ This behavior can be seen in the following example::
         else:
             reveal_type(x)  # Unrelated
 
+There are also cases beyond just mutability. In some cases, it may not be
+possible to narrow a type fully from information available to the ``TypeIs``
+function. In such cases, raising an error is the only possible option, as you
+have neither enough information to confirm or deny a type narrowing operation.
+(Note: returning false (denying) results in unsafe negative narrowing in this
+case) This is most likely to occur with narrowing of generics.
+
+To see why, we can look at the following example::
+
+    from typing_extensions import TypeVar, TypeIs
+    from typing import Generic
+
+    X = TypeVar("X", str, int, str | int, covariant=True, default=str | int)
+
+    class A(Generic[X]):
+        def __init__(self, i: X, /):
+            self._i: X = i
+
+        @property
+        def i(self) -> X:
+            return self._i
+
+
+    class B(A[X], Generic[X]):
+        def __init__(self, i: X, j: X, /):
+            super().__init__(i)
+            self._j: X = j
+
+        @property
+        def j(self) -> X:
+            return self._j
+
+    def possible_problem(x: A) -> TypeIs[A[int]]:
+        return isinstance(x.i, int)
+
+    def possible_correction(x: A) -> TypeIs[A[int]]:
+        if type(x) is A:
+            # only narrow cases we know about
+            return isinstance(x.i, int)
+        raise TypeError(
+            f"Refusing to narrow Genenric type {type(x)!r}"
+            f"from function that only knows about {A!r}"
+        )
+
+Because it is possible to attempt to narrow B,
+but A does not have appropriate information about B
+(or any other unknown subclass of A!) it's not possible to safely narrow
+in either direction. The general rule for generics is that if you do not know
+all the places a generic class is generic and do not check enough of them to be
+absolutely certain, you cannot return True, and if you do not have a definitive
+counter example to the type to be narrowed to you cannot return False.
+In practice, if soundness is prioritized over an unsafe narrowing,
+not knowing what you don't know is solvable by either
+erroring out when neither return option is safe, or by making the class to be
+narrowed final to avoid such a situation.
 
 Safety and soundness
 --------------------
 
 While type narrowing is important for typing real-world Python code, many
-forms of type narrowing are unsafe in the presence of mutability. Type checkers
+forms of type narrowing are unsafe. Type checkers
 attempt to limit type narrowing in a way that minimizes unsafety while remaining
 useful, but not all safety violations can be detected.
+
+One example of this tradeoff building off of TypeIs
+
+If you trust that users implementing the Sequence Protocol are doing so in a
+way that is safe to iterate over, and will not be mutated for the duration
+you are relying on it; then while the following function can never be fully
+sound, full soundness is not necessarily easier or better for your use::
+
+    def useful_unsoundness(s: Sequence[object]) -> TypeIs[Sequence[int]]:
+        return all(isinstance(i, int) for i in s)
+
+However, many cases of this sort can be extracted for safe use with an
+alternative construction if soundness is of a high priority,
+and the cost of a copy is acceptable::
+
+    def safer(s: Sequence[object]) -> Sequence[int]:
+        ret = tuple(i for i in s if isinstance(i, int))
+        if len(ret) != len(s):
+            raise TypeError
+        return ret
+
 
 ``isinstance()`` and ``issubclass()``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
